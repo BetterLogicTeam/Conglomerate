@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.buy_Now{
+    border-radius: 20px !important;
+}
+
+@media screen and (max-width: 1100px) {
+    .btttn_kabbg{
+        background: white !important;
+    }
+}
