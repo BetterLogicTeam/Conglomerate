@@ -5,7 +5,12 @@ import { ENDTIME, formatPrice, GOAL } from "../hooks/constant";
 import { DEFAULT_CHAIN, trimAddress } from "../hooks/constant";
 import { useWeb3React, UnsupportedChainIdError } from "@web3-react/core";
 import { injected } from "../hooks/connectors";
+import { useSelector } from "react-redux";
 export default function PreSale(props) {
+  let { provider, acc, providerType, web3 } = useSelector(
+    (state) => state.connectWallet
+  );
+
   const [updater, setUpdater] = useState(1);
   const [data, setDate] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -114,14 +119,14 @@ export default function PreSale(props) {
           <h2>Connect Your Wallet</h2>
           <p>Please select a wallet provider:</p>
           <div class="buttons md:ml-[-20px] md:mr-10">
-            <Connect id="1" />
-            <Connect id="2" />
+            <Connect id="1" hideModal={hideModal} />
+        
           </div>
         </div>
       </div>
-      {active && connected(injected) ? (
+      {acc !=null ? (
         <button className="mx-auto mb-8 flex h-[44px] w-[174px] items-center justify-center gap-2 rounded-lg bg-white text-black">
-          <span className="text-15">{account && trimAddress(account)}</span>
+          <span className="text-15">{acc && trimAddress(acc)}</span>
         </button>
       ) : (
         <button className="mx-auto mb-8 flex h-[44px] w-[174px] items-center justify-center gap-2 rounded-lg bg-white text-black">

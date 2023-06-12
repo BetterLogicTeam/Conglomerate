@@ -3,8 +3,10 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { Web3ReactProvider } from '@web3-react/core';
+// import { Web3ReactProvider } from '@web3-react/core';
 import { ethers } from 'ethers';
+import store from './store';
+import { Provider } from 'react-redux';
 
 function getLibrary(provider) {
   const library = new ethers.providers.Web3Provider(provider);
@@ -15,9 +17,11 @@ function getLibrary(provider) {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Web3ReactProvider getLibrary={getLibrary} >
+    {/* <Web3ReactProvider getLibrary={getLibrary} > */}
+    <Provider store={store}>
       <App />
-    </Web3ReactProvider>
+    </Provider>
+    {/* </Web3ReactProvider> */}
   </React.StrictMode>
 );
 
