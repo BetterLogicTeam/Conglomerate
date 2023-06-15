@@ -12,8 +12,12 @@ import tokenAbi from "../json/token.json";
 import stakeAbi from "../json/staking.json";
 import { ethers } from "ethers";
 import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function BuyNow(props) {
+  let { provider, acc, providerType, web3 } = useSelector(
+    (state) => state.connectWallet
+  );
   let { chainId, account, library } = useWeb3React();
   const [approve, setApprove] = useState(false);
   let { commonStats, accStats, setUpdater } = props;
@@ -69,8 +73,8 @@ export default function BuyNow(props) {
   const handleApprove = async (e) => {
     e.preventDefault();
     setLoading(true);
-    if (account) {
-      if (chainId) {
+    if (acc) {
+   
         try {
           let tokenContract;
           if (plan === 1) {
@@ -100,10 +104,11 @@ export default function BuyNow(props) {
           let amount = ethers.utils
             .parseEther("1000000000000000000")
             .toString();
+            console.log("tokenContract",tokenContract);
           let tx = await tokenContract.approve(
             contract[DEFAULT_CHAIN].PRESALE_ADDRESS,
             amount,
-            { from: account }
+            { from: acc }
           );
           toast.loading("Waiting for confirmation..");
 
@@ -135,11 +140,11 @@ export default function BuyNow(props) {
           toast.error(err.reason ? err.reason : err.message);
           setLoading(false);
         }
-      } else {
-        toast.dismiss();
-        toast.error("please connect network to Bsc chain!!");
-        setLoading(false);
-      }
+      // } else {
+      //   toast.dismiss();
+      //   toast.error("please connect network to Bsc chain!!");
+      //   setLoading(false);
+      // }
     } else {
       toast.dismiss();
       toast.error("please connect wallet!!");
@@ -150,8 +155,8 @@ export default function BuyNow(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    if (account) {
-      if (chainId) {
+    if (acc) {
+      // if (chainId) {
         if (plan >= 1 && plan <= 3) {
           if (parseFloat(amount) > 0) {
             try {
@@ -171,12 +176,12 @@ export default function BuyNow(props) {
                 decimals
               );
               let ref = refAddress
-                ? refAddress.toLowerCase() === account.toLowerCase()
+                ? refAddress.toLowerCase() === acc.toLowerCase()
                   ? "0x0000000000000000000000000000000000000000"
                   : refAddress
                 : "0x0000000000000000000000000000000000000000";
               let tx = await stakeContract.buyfromToken(plan, ref, bamount, {
-                from: account,
+                from: acc,
               });
               toast.loading("Waiting for confirmation..");
 
@@ -218,11 +223,11 @@ export default function BuyNow(props) {
           toast.error("selected paln doesn't exist!!");
           setLoading(false);
         }
-      } else {
-        toast.dismiss();
-        toast.error("please connect network to Bsc chain!!");
-        setLoading(false);
-      }
+      // } else {
+      //   toast.dismiss();
+      //   toast.error("please connect network to Bsc chain!!");
+      //   setLoading(false);
+      // }
     } else {
       toast.dismiss();
       toast.error("please connect wallet!!");

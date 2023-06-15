@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useWeb3React } from "@web3-react/core";
+import { useSelector } from "react-redux";
 
 const data = [
   {
@@ -19,15 +20,17 @@ export default function Program() {
   let { account } = useWeb3React();
   const [refAddress, setRefAddress] = useState('');
   const [copied, setCopied] = useState(false);
-
+  let { provider, acc, providerType, web3 } = useSelector(
+    (state) => state.connectWallet
+  );
   useEffect(() => {
-    if (account) {
-      setRefAddress(`${window.location.origin}/?ref=${account}`)
+    if (acc) {
+      setRefAddress(`${window.location.origin}/?ref=${acc}`)
     }
     else {
       setRefAddress('connect wallet')
     }
-  }, [account]);
+  }, [acc]);
 
 
   return (
@@ -45,7 +48,7 @@ export default function Program() {
                 <div class="w-full items-center justify-between pt-7">
                   <div class="flex flex-col items-start">
                     <p class="text-15 text-white">Your Referral Link</p>
-                    <input placeholder="Referral Addrses" type="text" class="w-full border-b border-white py-1 text-black outline-none ring-0 placeholder:text-10 placeholder:text-[#0e0d0d]" value={refAddress} />
+                    <input placeholder="Referral Addrses"  type="text" class="w-full border-b mt-3 p-2 border-white py-1 text-black outline-none ring-0 placeholder:text-10 placeholder:text-[#0e0d0d]" value={refAddress} />
                     <CopyToClipboard
                       text={refAddress}
                       onCopy={() => {
@@ -55,7 +58,7 @@ export default function Program() {
                         }, 2000);
                       }}
                     >
-                      <button type="button" class="h-[31px] w-[98px] rounded-lg mt-3 bg-white text-12.5 text-black">
+                      <button type="button" class="h-[31px] w-[120px] rounded-lg mt-3 bg-white text-12.5 text-black">
                         {copied ? 'Copied!' : 'Copy Referral'}
                       </button>
                     </CopyToClipboard>
