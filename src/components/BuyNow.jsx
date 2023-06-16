@@ -30,7 +30,7 @@ export default function BuyNow(props) {
     (state) => state.connectWallet
   );
   let { chainId, account, library } = useWeb3React();
-  const [approve, setApprove] = useState(false);
+  const [Spinner, setSpinner] = useState(false);
   let { commonStats, accStats, setUpdater } = props;
   let [plan, setPlan] = useState(1);
   const [balance, setBalance] = useState(0);
@@ -280,16 +280,26 @@ export default function BuyNow(props) {
     }
   };
 
-  const Claim = async () => {
+  const Claim_Amount = async () => {
     try {
-      let web3 = window.web3;
-      let ContractOf = new webSupply.eth.Contract(presale_ABI, presale_Address);
-      let tx = await ContractOf.methods.Claim().send({
-        from: acc,
-      });
-      toast.success("Success ! your Claim transaction is success");
+      if (acc) {
+        setSpinner(true);
+        let web3 = window.web3;
+        console.log("We3", web3);
+        let ContractOf = new web3.eth.Contract(presale_ABI, presale_Address);
+        let tx = await ContractOf.methods.Claim().send({
+          from: acc,
+        });
+        toast.success("Success ! your Claim transaction is success");
+        setSpinner(false);
+      } else {
+        toast.error("please connect wallet!!");
+        setSpinner(false);
+      }
     } catch (error) {
       console.log(error);
+      toast.error(error.reason ? error.reason : error.message);
+      setSpinner(false);
     }
   };
 
@@ -424,12 +434,13 @@ export default function BuyNow(props) {
 
         <button
           type="button"
-          onClick={()=>Claim()}
+          onClick={() => Claim_Amount()}
           disabled={IsClaim === false ? true : false}
           style={{ cursor: IsClaim === false ? "no-drop" : "pointer" }}
           className="mt-3 h-[31px] w-[98px] rounded-lg bg-white text-12.5 text-black"
         >
-          Claim
+           {Spinner ? "Loading..." : "Claim"}
+          
         </button>
       </div>
     </div>
