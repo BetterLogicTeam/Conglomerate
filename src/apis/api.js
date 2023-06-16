@@ -3,7 +3,7 @@ let isItConnected = false;
 const networks = {
   bsc: {
    
-    chainId: `0x${Number(56).toString(16)}`, // archie testnet
+    chainId: `0x${Number(97).toString(16)}`, // archie testnet
     chainName: "Binance smart chain",
     nativeCurrency: {
       name: "BNB",
@@ -20,7 +20,7 @@ const changeNetwork = async ({ networkName }) => {
     const web3 = window.web3;
     await window.ethereum.request({
       method: 'wallet_switchEthereumChain',
-      params: [{ chainId: web3.utils.toHex(56) }]
+      params: [{ chainId: web3.utils.toHex(97) }]
     });
     window.location.reload();
 
@@ -57,7 +57,7 @@ export const loadWeb3 = async () => {
       await window.web3.eth.getChainId((err, netId) => {
         // console.log("networkId==>", netId);
         switch (netId.toString()) {
-          case "56":
+          case "97":
             isItConnected = true;
             break;
           default:

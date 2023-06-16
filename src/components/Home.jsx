@@ -25,13 +25,13 @@ export default function Home() {
             accStats={accStats}
             commonStats={commonStats}
             setUpdater={setUpdater}
-            />
-    <div className="buy_Now py-8 px-8 border-2 w-auto border-white-600">
-          <BuyNow
-            commonStats={commonStats}
-            accStats={accStats}
-            setUpdater={setUpdater}
           />
+          <div className="buy_Now py-8 px-8 border-2 w-auto border-white-600">
+            <BuyNow
+              commonStats={commonStats}
+              accStats={accStats}
+              setUpdater={setUpdater}
+            />
           </div>
         </div>
       </main>

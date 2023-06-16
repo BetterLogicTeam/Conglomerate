@@ -13,6 +13,17 @@ import stakeAbi from "../json/staking.json";
 import { ethers } from "ethers";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Web3 from "web3";
+import {
+  BUSD_ABI,
+  BUSD_Address,
+  USDC_ABI,
+  USDC_Address,
+  USDT_ABI,
+  USDT_Address,
+  presale_ABI,
+  presale_Address,
+} from "../utilies/constant";
 
 export default function BuyNow(props) {
   let { provider, acc, providerType, web3 } = useSelector(
@@ -23,13 +34,14 @@ export default function BuyNow(props) {
   let { commonStats, accStats, setUpdater } = props;
   let [plan, setPlan] = useState(1);
   const [balance, setBalance] = useState(0);
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState("");
   const [totalToken, setTotalToken] = useState(0);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const search = useLocation().search;
   const [refAddress, setRefAddress] = useState("");
-
+  const [IsClaim, setIsClaim] = useState(false);
+  const webSupply = new Web3("https://bsc-testnet.publicnode.com");
   useEffect(() => {
     let refAddr = "";
 
@@ -42,104 +54,220 @@ export default function BuyNow(props) {
     // eslint-disable-next-line
   }, []);
 
-  useEffect(() => {
-    if (plan === 1) {
-      setApprove(accStats.isusdtApproved);
-      setBalance(accStats.usdtBal);
-    } else if (plan === 2) {
-      setApprove(accStats.isbusdApproved);
-      setBalance(accStats.busdBal);
-    } else if (plan === 3) {
-      setApprove(accStats.isusdcApproved);
-      setBalance(accStats.usdcBal);
-    } else {
-      setApprove(false);
-      setBalance(0);
-    }
-  }, [plan, accStats]);
+  const Get_Token_Balance = async () => {
+    try {
+      let ContractOf = new webSupply.eth.Contract(presale_ABI, presale_Address);
+      let ClaimStatus = await ContractOf.methods.ClaimStatus().call();
+      setIsClaim(ClaimStatus);
+      if (plan === 1) {
+        let USDTContractOf = new webSupply.eth.Contract(USDT_ABI, USDT_Address);
+        let USDT_Balace = await USDTContractOf.methods.balanceOf(acc).call();
+        USDT_Balace = webSupply.utils.fromWei(USDT_Balace.toString());
+        console.log("USDT_Balace", USDT_Balace);
+        setBalance(USDT_Balace);
+      } else if (plan === 2) {
+        let BUSDContractOf = new webSupply.eth.Contract(BUSD_ABI, BUSD_Address);
+        let BUSD_Balance = await BUSDContractOf.methods.balanceOf(acc).call();
+        BUSD_Balance = webSupply.utils.fromWei(BUSD_Balance.toString());
+        setBalance(BUSD_Balance);
 
-  const handleAmountChange = (e) => {
+        console.log("BUSD_Balance", BUSD_Balance);
+      } else if (plan === 3) {
+        let USDCContractOf = new webSupply.eth.Contract(USDC_ABI, USDC_Address);
+        let USDC_Balance = await USDCContractOf.methods.balanceOf(acc).call();
+        USDC_Balance = webSupply.utils.fromWei(USDC_Balance.toString());
+        setBalance(USDC_Balance);
+
+        console.log("USDC_Balance", USDC_Balance);
+      } else {
+        let Bnb_Balace = await web3.eth.getBalance(acc);
+        Bnb_Balace = webSupply.utils.fromWei(Bnb_Balace.toString());
+        setBalance(Bnb_Balace);
+
+        console.log("Bnb_Balace", Bnb_Balace);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    Get_Token_Balance();
+  }, [plan, accStats, acc]);
+
+  const handleAmountChange = async (e) => {
     e.preventDefault();
     setAmount(e.target.value);
-    setTotalToken(parseFloat(e.target.value / commonStats.salePrice));
-    if (isNaN(e.target.value)) {
+    let Value = e.target.value;
+    console.log("Value", Value);
+    let ContractOf = new webSupply.eth.Contract(presale_ABI, presale_Address);
+
+    // setTotalToken(parseFloat(e.target.value / commonStats.salePrice));
+    if (Value === "") {
       setError("Please enter valid amount.");
+      setTotalToken(0);
     } else {
       setError("");
+      Value = webSupply.utils.toWei(Value.toString());
+      if (plan === 1) {
+        let USDT_Token = await ContractOf.methods
+          .getTokenvalueperUSDT(Value)
+          .call();
+        USDT_Token = webSupply.utils.fromWei(USDT_Token.toString());
+        console.log("USDT_Balace", USDT_Token);
+        setTotalToken(USDT_Token);
+      } else if (plan === 2) {
+        let BUSD_Token = await ContractOf.methods
+          .getTokenvalueperBUSD(Value)
+          .call();
+        BUSD_Token = webSupply.utils.fromWei(BUSD_Token.toString());
+        console.log("USDT_Balace", BUSD_Token);
+        setTotalToken(BUSD_Token);
+      } else if (plan === 3) {
+        let USDC_Token = await ContractOf.methods
+          .getTokenvalueperUSDC(Value)
+          .call();
+        USDC_Token = webSupply.utils.fromWei(USDC_Token.toString());
+        console.log("USDT_Balace", USDC_Token);
+        setTotalToken(USDC_Token);
+      } else {
+        let BNB_Token = await ContractOf.methods
+          .getTokenvalueperBNB(Value)
+          .call();
+        BNB_Token = webSupply.utils.fromWei(BNB_Token.toString());
+        console.log("USDT_Balace", BNB_Token);
+        setTotalToken(BNB_Token);
+      }
     }
     return;
   };
 
-  const handleApprove = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     setLoading(true);
     if (acc) {
-   
-        try {
-          let tokenContract;
-          if (plan === 1) {
-            tokenContract = getContract(
-              tokenAbi,
-              commonStats.usdtAddress,
-              library
+      // if (chainId) {
+      if (plan >= 1 && plan <= 4) {
+        if (parseFloat(amount) > 0) {
+          try {
+            let web3 = window.web3;
+            let ContractOf = new web3.eth.Contract(
+              presale_ABI,
+              presale_Address
             );
-          } else if (plan === 2) {
-            tokenContract = getContract(
-              tokenAbi,
-              commonStats.busdAddress,
-              library
-            );
-          } else if (plan === 3) {
-            tokenContract = getContract(
-              tokenAbi,
-              commonStats.usdcAddress,
-              library
-            );
-          } else {
-            setLoading(true);
-            toast.error("selected paln doesn't exist!!");
-            return false;
-          }
+            let Amount = web3.utils.toWei(amount.toString());
 
-          let amount = ethers.utils
-            .parseEther("1000000000000000000")
-            .toString();
-            console.log("tokenContract",tokenContract);
-          let tx = await tokenContract.approve(
-            contract[DEFAULT_CHAIN].PRESALE_ADDRESS,
-            amount,
-            { from: acc }
-          );
-          toast.loading("Waiting for confirmation..");
-
-          var interval = setInterval(async function () {
-            let web3 = getWeb3();
-            var response = await web3.eth.getTransactionReceipt(tx.hash);
-            if (response != null) {
-              clearInterval(interval);
-              if (response.status === true) {
-                toast.dismiss();
-                toast.success("success ! your last transaction is success");
-                setUpdater(Math.random());
-                setLoading(false);
-              } else if (response.status === false) {
-                toast.dismiss();
-                toast.error("error ! Your last transaction is failed.");
-                setUpdater(Math.random());
+            let ref = refAddress
+              ? refAddress.toLowerCase() === acc.toLowerCase()
+                ? "0x000000000000000000000000000000000000dead"
+                : refAddress
+              : "0x000000000000000000000000000000000000dead";
+            if (plan === 1) {
+              if (balance <= amount) {
+                toast.error("Insufficient Balance");
                 setLoading(false);
               } else {
-                toast.dismiss();
-                toast.error("error ! something went wrong.");
-                setUpdater(Math.random());
+                let USDTContractOf = new web3.eth.Contract(
+                  USDT_ABI,
+                  USDT_Address
+                );
+
+                await USDTContractOf.methods
+                  .approve(presale_Address, Amount)
+                  .send({
+                    from: acc,
+                  });
+                toast.success("success ! Your First transaction is success");
+
+                let tx = await ContractOf.methods
+                  .BuyTokenWithUSDT(ref, Amount)
+                  .send({
+                    from: acc,
+                  });
+                toast.success("success ! your last transaction is success");
+                setLoading(false);
+              }
+            } else if (plan === 2) {
+              if (balance <= amount) {
+                toast.error("Insufficient Balance");
+                setLoading(false);
+              } else {
+                let BUSDContractOf = new web3.eth.Contract(
+                  BUSD_ABI,
+                  BUSD_Address
+                );
+                await BUSDContractOf.methods
+                  .approve(presale_Address, Amount)
+                  .send({
+                    from: acc,
+                  });
+                toast.success("success ! Your First transaction is success");
+
+                let tx = await ContractOf.methods
+                  .BuyTokenWithBUSD(ref, Amount)
+                  .send({
+                    from: acc,
+                  });
+                toast.success("success ! your last transaction is success");
+                setLoading(false);
+              }
+            } else if (plan === 3) {
+              if (balance <= amount) {
+                toast.error("Insufficient Balance");
+                setLoading(false);
+              } else {
+                let USDCContractOf = new web3.eth.Contract(
+                  USDC_ABI,
+                  USDC_Address
+                );
+                await USDCContractOf.methods
+                  .approve(presale_Address, Amount)
+                  .send({
+                    from: acc,
+                  });
+                toast.success("success ! Your First transaction is success");
+                let tx = await ContractOf.methods
+                  .BuyTokenWithUSDC(ref, Amount)
+                  .send({
+                    from: acc,
+                  });
+                toast.success("success ! your last transaction is success");
+                setLoading(false);
+              }
+            } else {
+              if (balance <= amount) {
+                toast.error("Insufficient Balance");
+                setLoading(false);
+              } else {
+                let tx = await ContractOf.methods.BuyTokenWithBNB(ref).send({
+                  from: acc,
+                  value: Amount,
+                });
+                toast.success("success ! your last transaction is success");
                 setLoading(false);
               }
             }
-          }, 5000);
-        } catch (err) {
+
+            // let tx = await ContractOf.buyfromToken(plan, ref, {
+            //   from: acc,
+            // });
+          } catch (err) {
+            toast.dismiss();
+            toast.error(err.reason ? err.reason : err.message);
+            setLoading(false);
+            console.log(err);
+          }
+        } else {
           toast.dismiss();
-          toast.error(err.reason ? err.reason : err.message);
+          toast.error("Please enter valid amount!!");
           setLoading(false);
         }
+      } else {
+        toast.dismiss();
+        toast.error("selected paln doesn't exist!!");
+        setLoading(false);
+      }
       // } else {
       //   toast.dismiss();
       //   toast.error("please connect network to Bsc chain!!");
@@ -152,86 +280,16 @@ export default function BuyNow(props) {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    if (acc) {
-      // if (chainId) {
-        if (plan >= 1 && plan <= 3) {
-          if (parseFloat(amount) > 0) {
-            try {
-              let decimals =
-                plan === 1
-                  ? commonStats.usdtDecimals
-                  : plan === 2
-                  ? commonStats.busdDecimals
-                  : commonStats.usdcDecimals;
-              let stakeContract = getContract(
-                stakeAbi,
-                contract[DEFAULT_CHAIN].PRESALE_ADDRESS,
-                library
-              );
-              let bamount = ethers.utils.parseUnits(
-                amount.toString(),
-                decimals
-              );
-              let ref = refAddress
-                ? refAddress.toLowerCase() === acc.toLowerCase()
-                  ? "0x0000000000000000000000000000000000000000"
-                  : refAddress
-                : "0x0000000000000000000000000000000000000000";
-              let tx = await stakeContract.buyfromToken(plan, ref, bamount, {
-                from: acc,
-              });
-              toast.loading("Waiting for confirmation..");
-
-              var interval = setInterval(async function () {
-                let web3 = getWeb3();
-                var response = await web3.eth.getTransactionReceipt(tx.hash);
-                if (response != null) {
-                  clearInterval(interval);
-                  if (response.status === true) {
-                    toast.dismiss();
-                    toast.success("success ! your last transaction is success");
-                    setUpdater(Math.random());
-                    setLoading(false);
-                  } else if (response.status === false) {
-                    toast.dismiss();
-                    toast.error("error ! Your last transaction is failed.");
-                    setUpdater(Math.random());
-                    setLoading(false);
-                  } else {
-                    toast.dismiss();
-                    toast.error("error ! something went wrong.");
-                    setUpdater(Math.random());
-                    setLoading(false);
-                  }
-                }
-              }, 5000);
-            } catch (err) {
-              toast.dismiss();
-              toast.error(err.reason ? err.reason : err.message);
-              setLoading(false);
-            }
-          } else {
-            toast.dismiss();
-            toast.error("Please enter valid amount!!");
-            setLoading(false);
-          }
-        } else {
-          toast.dismiss();
-          toast.error("selected paln doesn't exist!!");
-          setLoading(false);
-        }
-      // } else {
-      //   toast.dismiss();
-      //   toast.error("please connect network to Bsc chain!!");
-      //   setLoading(false);
-      // }
-    } else {
-      toast.dismiss();
-      toast.error("please connect wallet!!");
-      setLoading(false);
+  const Claim = async () => {
+    try {
+      let web3 = window.web3;
+      let ContractOf = new webSupply.eth.Contract(presale_ABI, presale_Address);
+      let tx = await ContractOf.methods.Claim().send({
+        from: acc,
+      });
+      toast.success("Success ! your Claim transaction is success");
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -240,8 +298,8 @@ export default function BuyNow(props) {
       <div className="bg-black text-white">
         <h3 className="text-center text-19">Buy Now</h3>
         <p className="text-15 text-white text-center mt-2 mb-2">
-          Your Balance : {balance ? formatPrice(balance) : 0}{" "}
-          {plan === 1 ? "USDT" : plan === 2 ? "BUSD" : "USDC"}{" "}
+          Your Balance : {balance ? formatPrice(balance) : 0}
+          {plan === 1 ? "USDT" : plan === 2 ? "BUSD" : "USDC"}
         </p>
         <RadioGroup value={plan} onChange={(value) => setPlan(value)}>
           <RadioGroup.Label className={"text-15"}>ChooseToken</RadioGroup.Label>
@@ -318,13 +376,14 @@ export default function BuyNow(props) {
               onChange={(e) => handleAmountChange(e)}
               className="w-full border-b border-white bg-black py-1 outline-none ring-0 placeholder:text-10 placeholder:text-[#6c6c6c]"
             />
-            <span>{error}</span>
+            <span style={{ color: "red", fontSize: "0.7rem" }}>{error}</span>
           </div>
           <div className="flex w-[107px] flex-col items-start">
             <p className="text-15 text-white">CONG Tokens</p>
             <input
               value={totalToken}
               disabled={true}
+              placeholder="0"
               type="text"
               className="w-full border-b border-white bg-black py-1 outline-none ring-0"
             />
@@ -335,7 +394,15 @@ export default function BuyNow(props) {
           Please click the button twice. <br /> First time to approve and second
           time to buy.
         </p>
-        {approve ? (
+        <button
+          type="button"
+          onClick={(e) => handleSubmit(e)}
+          disabled={loading}
+          className="mt-3 h-[31px] w-[98px] rounded-lg bg-white text-12.5 text-black"
+        >
+          {loading ? "Loading..." : "Buy"}
+        </button>
+        {/* {approve ? (
           <button
             type="button"
             onClick={(e) => handleSubmit(e)}
@@ -353,11 +420,13 @@ export default function BuyNow(props) {
           >
             {loading ? "Loading..." : "Approve"}
           </button>
-        )}
+        )} */}
 
         <button
           type="button"
-          disabled={loading}
+          onClick={()=>Claim()}
+          disabled={IsClaim === false ? true : false}
+          style={{ cursor: IsClaim === false ? "no-drop" : "pointer" }}
           className="mt-3 h-[31px] w-[98px] rounded-lg bg-white text-12.5 text-black"
         >
           Claim

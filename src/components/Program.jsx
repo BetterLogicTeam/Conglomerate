@@ -17,7 +17,7 @@ const data = [
 ];
 
 export default function Program() {
-  let { account } = useWeb3React();
+
   const [refAddress, setRefAddress] = useState('');
   const [copied, setCopied] = useState(false);
   let { provider, acc, providerType, web3 } = useSelector(
