@@ -15,7 +15,7 @@ export const contract = {
 
 export const DEFAULT_CHAIN = 56;
 //here we need the timespame
-export const ENDTIME = 1678728210000; //use webiste - https://www.epochconverter.com/
+export const ENDTIME = 1688261825000; //use webiste - https://www.epochconverter.com/
 export const GOAL = 2500000;
 export const totalRaised = 550000;
 

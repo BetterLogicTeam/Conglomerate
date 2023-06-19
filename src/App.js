@@ -6,6 +6,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Home from "./components/Home";
 import { Route, Routes } from "react-router-dom";
+import About_US from "./components/About_US";
 
 function App() {
   return (
@@ -13,9 +14,11 @@ function App() {
       <div className="min-h-screen">
         <Header />
         <ToastContainer pauseOnFocusLoss={false} />
-        <h1>Tayyab</h1>
+        
         <Routes>
           <Route path="/" element={<Home/>} />
+          <Route path="/AboutUS" element={<About_US/>} />
+
 
         </Routes>
       

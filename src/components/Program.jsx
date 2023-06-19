@@ -9,11 +9,11 @@ const data = [
     title: "Referral Program",
     desc: "Share your referral link and get paid 5% instantly to your wallet for every referred token purchase. The referral cash back will be paid in USDT, USDC or BUSD, depending on which token was used to buy CONG token with the referral link.",
   },
-  {
-    id: 2,
-    title: "Vesting",
-    desc: "To protect investors against rug pulls and governance attacks, CONG Tokens will have 3-month lockup and 6-month vesting thereafter (16.67% release/month). Tokens can be trackable and claimable, after the presale period, through Trust Swap Team Finance tool on https://www.team.finance/claim.",
-  },
+  // {
+  //   id: 2,
+  //   title: "Vesting",
+  //   desc: "To protect investors against rug pulls and governance attacks, CONG Tokens will have 3-month lockup and 6-month vesting thereafter (16.67% release/month). Tokens can be trackable and claimable, after the presale period, through Trust Swap Team Finance tool on https://www.team.finance/claim.",
+  // },
 ];
 
 export default function Program() {
@@ -43,7 +43,7 @@ export default function Program() {
               className="rounded-lg bg-black sm:pb-7 sm:pr-9 sm:pl-[43px] sm:pt-8 p-5"
             >
               <h3 className="pb-7 text-18">{title}</h3>
-              <p className="text-12">{desc}</p>
+              <p className="text-16">{desc}</p>
               {id === 1 &&
                 <div class="w-full items-center justify-between pt-7">
                   <div class="flex flex-col items-start">

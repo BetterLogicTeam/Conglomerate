@@ -26,11 +26,11 @@ import "swiper/css/pagination";
 import { Autoplay } from "swiper";
 
 const data = [
-  {
-    id: 1,
-    img: logo,
-    uri: "https://www.crypto-news-flash.com/new-gem-coming-out-first-outlook-at-the-conglomerate-capitals-token-cong/",
-  },
+  // {
+  //   id: 1,
+  //   img: logo,
+  //   uri: "https://www.crypto-news-flash.com/new-gem-coming-out-first-outlook-at-the-conglomerate-capitals-token-cong/",
+  // },
   {
     id: 2,
     img: logo1,
@@ -67,11 +67,11 @@ const data = [
     img: logo8,
     uri: "https://www.digitaljournal.com/pr/first-outlook-at-the-conglomerate-capitals-token-cong",
   },
-  {
-    id: 11,
-    img: logo10,
-    uri: "https://micky.com.au/the-cong-token-is-the-new-crypto-hype/",
-  },
+  // {
+  //   id: 11,
+  //   img: logo10,
+  //   uri: "https://micky.com.au/the-cong-token-is-the-new-crypto-hype/",
+  // },
 ];
 export default function Brand() {
   return (

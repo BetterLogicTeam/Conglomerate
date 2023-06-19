@@ -20,6 +20,7 @@ import {
   PhoneIcon,
   PlayCircleIcon,
 } from "@heroicons/react/20/solid";
+import { Link } from "react-router-dom";
 
 const products = [
   {
@@ -88,10 +89,10 @@ export default function Header() {
           </div>
           <Popover.Group className="hidden lg:flex lg:gap-x-12">
             <a href="#" className="text-sm font-semibold leading-6 text-white">
-              Home
+              <Link to="/">Home</Link>
             </a>
-            <a href="#" className="text-sm font-semibold leading-6 text-white">
-              About
+            <a className="text-sm font-semibold leading-6 text-white">
+              <Link to="/AboutUS">About</Link>
             </a>
             <a href="#" className="text-sm font-semibold leading-6 text-white">
               Features
@@ -113,11 +114,7 @@ export default function Header() {
             <div className="flex items-center justify-between">
               <a href="#" className="-m-1.5 p-1.5">
                 <span className="sr-only">Your Company</span>
-                <img
-                  className="h-8 w-auto"
-                  src={logo}
-                  alt=""
-                />
+                <img className="h-8 w-auto" src={logo} alt="" />
               </a>
               <button
                 type="button"
@@ -162,8 +159,7 @@ export default function Header() {
                     Company
                   </a>
                 </div>
-                <div className="py-6">
-                </div>
+                <div className="py-6"></div>
               </div>
             </div>
           </Dialog.Panel>

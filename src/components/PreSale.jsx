@@ -7,9 +7,7 @@ import { useWeb3React, UnsupportedChainIdError } from "@web3-react/core";
 import { injected } from "../hooks/connectors";
 import { useSelector } from "react-redux";
 export default function PreSale(props) {
-  let { provider, acc, providerType, web3 } = useSelector(
-    (state) => state.connectWallet
-  );
+ 
 
   const [updater, setUpdater] = useState(1);
   const [data, setDate] = useState(0);
@@ -24,7 +22,7 @@ export default function PreSale(props) {
     );
 
     const json = await response.json();
-    // setDate(json?.endDate?.endDate);
+    setDate(json?.endDate?.endDate);
     setLoading(false);
   };
   async function fetchVal() {
@@ -63,9 +61,7 @@ export default function PreSale(props) {
   }, []);
   console.log("Data...", data);
 
-  const handleModal = () => {
-    setModal(true);
-  };
+  
   const hideModal = () => {
     setModal(false);
   };
@@ -76,9 +72,9 @@ export default function PreSale(props) {
       <p className="pb-[14px] text-center text-white text-12.5">
         14 March, 2023 To April 16, 2023
       </p>
-      <p className="pb-[14px] text-white text-center text-12.5">
+      <p className="pb-[14px] text-white text-center text-17.5">
         Sale Ending In:
-        {loading ? (
+        {/* {loading ? (
           <Countdown
             key={Math.floor(Math.random() * 10 + 1)}
             date={ENDTIME}
@@ -90,7 +86,15 @@ export default function PreSale(props) {
             date={data?.endDate}
             renderer={countdownrender}
           />
-        )}
+
+
+        )} */}
+
+<Countdown
+            key={Math.floor(Math.random() * 10 + 1)}
+            date={ENDTIME}
+            renderer={countdownrender}
+          />
       </p>
 
       <div className="mb-[17px] h-4 w-full overflow-hidden rounded-full bg-[#E8E8E8]">
@@ -124,17 +128,7 @@ export default function PreSale(props) {
           </div>
         </div>
       </div>
-      {acc !=null ? (
-        <button className="mx-auto mb-8 flex h-[44px] w-[174px] items-center justify-center gap-2 rounded-lg bg-white text-black">
-          <span className="text-15">{acc && trimAddress(acc)}</span>
-        </button>
-      ) : (
-        <button className="mx-auto mb-8 flex h-[44px] w-[174px] items-center justify-center gap-2 rounded-lg bg-white text-black">
-          <span className="text-15" onClick={handleModal}>
-            Connect Wallet
-          </span>
-        </button>
-      )}
+      
 
       <div className="flex items-center justify-between pb-4">
         <p className="text-15 text-white">Sale Supply</p>

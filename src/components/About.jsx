@@ -8,7 +8,7 @@ export default function About() {
   return (
     <div className="rounded-t-lg bg-black p-5 lg:pt-[34px] lg:pl-[46px] lg:pr-[98px]">
       <h3 className="text-22 text-white">About Conglomerate </h3>
-      <p className="pt-5 text-white pb-[9px] text-16">
+      <p className="pt-5 text-white pb-[9px] text-17">
         The Conglomerate Capital is a web3, BEP20 blockchain-based investment
         and funding platform, governed by a Decentralized Autonomous
         Organization (DAO), from which disruptive startups as well as SME
