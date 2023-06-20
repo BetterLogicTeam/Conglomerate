@@ -6,17 +6,33 @@ import { DEFAULT_CHAIN, trimAddress } from "../hooks/constant";
 import { useWeb3React, UnsupportedChainIdError } from "@web3-react/core";
 import { injected } from "../hooks/connectors";
 import { useSelector } from "react-redux";
+import Web3 from "web3";
+import {
+  BUSD_ABI,
+  BUSD_Address,
+  USDC_ABI,
+  USDC_Address,
+  USDT_ABI,
+  USDT_Address,
+  presale_Address,
+} from "../utilies/constant";
 export default function PreSale(props) {
- 
-
-  const [updater, setUpdater] = useState(1);
+  let { provider, acc, providerType, web3 } = useSelector(
+    (state) => state.connectWallet
+  );
+  const webSupply = new Web3("https://bsc-testnet.publicnode.com");
+  const [updater, setUpdater] = useState(0);
   const [data, setDate] = useState(0);
   const [loading, setLoading] = useState(false);
   const [modal, setModal] = useState(false);
   const context = useWeb3React();
   const { connector, account, deactivate, active, error, activate } = context;
+  const [totalUSDRaised, settotalUSDRaised] = useState(0);
+
+
+
   const fetchDate = async () => {
-    setLoading(true);
+    
     const response = await fetch(
       "https://presale-backend-nine.vercel.app/api/getEndDate"
     );
@@ -33,7 +49,7 @@ export default function PreSale(props) {
       const json = await response.json();
       console.log("json...", json?.value);
       setDate(json?.value);
-      setUpdater(json?.value?.sliderValue);
+      // setUpdater(json?.value?.sliderValue);
       return json;
     } catch (error) {
       console.error(error);
@@ -56,21 +72,67 @@ export default function PreSale(props) {
   };
 
   useEffect(() => {
-    fetchDate();
+   fetchDate();
     fetchVal();
   }, []);
-  console.log("Data...", data);
 
-  
   const hideModal = () => {
     setModal(false);
   };
-  const connected = (connection) => connection === connector;
+
+  const Get_Token_Balance = async () => {
+    try {
+      if (acc) {
+        let addBalance = 0;
+        let USDTContractOf = new webSupply.eth.Contract(USDT_ABI, USDT_Address);
+        let USDT_Balace = await USDTContractOf.methods.balanceOf(presale_Address).call();
+        USDT_Balace = webSupply.utils.fromWei(USDT_Balace.toString());
+        console.log("USDT_Balace", USDT_Balace);
+        addBalance = Number(addBalance) + Number(USDT_Balace);
+
+        let BUSDContractOf = new webSupply.eth.Contract(BUSD_ABI, BUSD_Address);
+        let BUSD_Balance = await BUSDContractOf.methods.balanceOf(presale_Address).call();
+        BUSD_Balance = webSupply.utils.fromWei(BUSD_Balance.toString());
+        addBalance = Number(addBalance) + Number(BUSD_Balance);
+
+        console.log("BUSD_Balance", addBalance);
+
+        let USDCContractOf = new webSupply.eth.Contract(USDC_ABI, USDC_Address);
+        let USDC_Balance = await USDCContractOf.methods.balanceOf(presale_Address).call();
+        USDC_Balance = webSupply.utils.fromWei(USDC_Balance.toString());
+        addBalance = Number(addBalance) + Number(USDC_Balance);
+
+        console.log("USDC_Balance", addBalance);
+
+        let Bnb_Balace = await web3.eth.getBalance(presale_Address);
+        Bnb_Balace = webSupply.utils.fromWei(Bnb_Balace.toString());
+        // addBalance = Number(addBalance) + Number(Bnb_Balace);
+        
+        Bnb_Balace=Bnb_Balace*250
+        addBalance = Number(addBalance) + Number(Bnb_Balace);
+        console.log("Final_Balance", addBalance);
+        // console.log("Bnb_Balace", Bnb_Balace);
+
+        settotalUSDRaised(addBalance)
+        
+
+
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    Get_Token_Balance();
+  
+  }, [acc]);
+
   return (
     <div>
       <h3 className="pb-4 text-center text-24 text-white">Join the Pre Sale</h3>
       <p className="pb-[14px] text-center text-white text-12.5">
-        14 March, 2023 To April 16, 2023
+        June 20, 2023 To July 02, 2023
       </p>
       <p className="pb-[14px] text-white text-center text-17.5">
         Sale Ending In:
@@ -89,30 +151,29 @@ export default function PreSale(props) {
 
 
         )} */}
-
-<Countdown
-            key={Math.floor(Math.random() * 10 + 1)}
-            date={ENDTIME}
-            renderer={countdownrender}
-          />
+        <Countdown
+          key={Math.floor(Math.random() * 10 + 1)}
+          date={ENDTIME}
+          renderer={countdownrender}
+        />
       </p>
 
-      <div className="mb-[17px] h-4 w-full overflow-hidden rounded-full bg-[#E8E8E8]">
+      <div className="mb-[17px] h-4 w-full overflow-hidden rounded-full bg-[#000]">
         <div
-          className={`h-full bg-white`}
+          className={`h-full bg-[#008000]`}
           style={{
-            width: `${updater}`,
+            width: `${(totalUSDRaised/20000)*100}px`,
           }}
         ></div>
       </div>
       <div className="flex items-center justify-between pb-6">
         <p className="text-13.5 text-white">
-          Raised: {data?.raisedValue ? formatPrice(data?.raisedValue) : 0} {""}
-          USD
+          Raised: {totalUSDRaised} USD
           {/* {commonStats.totalRaised ? formatPrice(commonStats.totalRaised) : 0}{" "} */}
         </p>
         <p className="text-13.5 text-white">
-          Goal: {data?.goal ? formatPrice(data?.goal) : "0"} USD
+          {/* Goal: {data?.goal ? formatPrice(data?.goal) : "0"} USD */}
+          Goal: 20,000 USD
         </p>
       </div>
       <div id="myModal" class={!account && modal ? "modal" : "modal-hide"}>
@@ -124,11 +185,9 @@ export default function PreSale(props) {
           <p>Please select a wallet provider:</p>
           <div class="buttons md:ml-[-20px] md:mr-10">
             <Connect id="1" hideModal={hideModal} />
-        
           </div>
         </div>
       </div>
-      
 
       <div className="flex items-center justify-between pb-4">
         <p className="text-15 text-white">Sale Supply</p>
@@ -140,10 +199,10 @@ export default function PreSale(props) {
           {data?.saleSupply ? formatPrice(data?.saleSupply) : "0"} CURE COIN
         </p>
         <p className="text-15 font-bold text-white">
-          {data?.pricePerToken
+          {/* {data?.pricePerToken
             ? parseFloat(parseFloat(data?.pricePerToken).toFixed(8))
-            : "-"}{" "}
-          USDT
+            : "-"} */}
+              0.001 USD
           {/* {commonStats.salePrice
             ? parseFloat(parseFloat(commonStats.salePrice).toFixed(8))
             : "-"}{" "} */}

@@ -309,7 +309,7 @@ export default function BuyNow(props) {
         <h3 className="text-center text-19">Buy Now</h3>
         <p className="text-15 text-white text-center mt-2 mb-2">
           Your Balance : {balance ? formatPrice(balance) : 0}
-          {plan === 1 ? "USDT" : plan === 2 ? "BUSD" : "USDC"}
+          {plan === 1 ? " USDT" : plan === 2 ? " BUSD" : plan === 3? " USDC":" BNB"}
         </p>
         <RadioGroup value={plan} onChange={(value) => setPlan(value)}>
           <RadioGroup.Label className={"text-15"}>Choose Token</RadioGroup.Label>
