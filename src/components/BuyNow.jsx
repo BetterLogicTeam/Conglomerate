@@ -312,7 +312,7 @@ export default function BuyNow(props) {
           {plan === 1 ? "USDT" : plan === 2 ? "BUSD" : "USDC"}
         </p>
         <RadioGroup value={plan} onChange={(value) => setPlan(value)}>
-          <RadioGroup.Label className={"text-15"}>ChooseToken</RadioGroup.Label>
+          <RadioGroup.Label className={"text-15"}>Choose Token</RadioGroup.Label>
           <div className="flex justify-center gap-2 pt-4">
             <RadioGroup.Option value={1}>
               {({ checked }) => (
@@ -389,7 +389,7 @@ export default function BuyNow(props) {
             <span style={{ color: "red", fontSize: "0.7rem" }}>{error}</span>
           </div>
           <div className="flex w-[107px] flex-col items-start">
-            <p className="text-15 text-white">CONG Tokens</p>
+            <p className="text-15 text-white">CURE COIN</p>
             <input
               value={totalToken}
               disabled={true}

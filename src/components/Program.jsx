@@ -7,7 +7,7 @@ const data = [
   {
     id: 1,
     title: "Referral Program",
-    desc: "Share your referral link and get paid 5% instantly to your wallet for every referred token purchase. The referral cash back will be paid in USDT, USDC or BUSD, depending on which token was used to buy CONG token with the referral link.",
+    desc: "Share your referral link and get paid 5% instantly to your wallet for every referred token purchase. The referral cash back will be paid in USDT, USDC or BUSD, depending on which token was used to buy CURE COIN with the referral link.",
   },
   // {
   //   id: 2,

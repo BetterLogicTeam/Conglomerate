@@ -137,7 +137,7 @@ export default function PreSale(props) {
 
       <div className="flex items-center justify-between pb-8">
         <p className="text-15 font-bold text-white">
-          {data?.saleSupply ? formatPrice(data?.saleSupply) : "0"} CONG
+          {data?.saleSupply ? formatPrice(data?.saleSupply) : "0"} CURE COIN
         </p>
         <p className="text-15 font-bold text-white">
           {data?.pricePerToken

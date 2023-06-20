@@ -28,10 +28,10 @@ export default function Home() {
   };
   return (
     <>
-      <main className="container grid grid-cols-1 sm:gap-4 lg:gap-20 pt-[97px] sm:grid-cols-12 lg:grid-cols-11">
+      <main className="container grid grid-cols-1 sm:gap-4 lg:gap-20 pt-[97px] md:grid-cols-12  lg:grid-cols-11">
         <div className="col-span-1 order-2 lg:order-1 sm:col-span-6 lg:col-span-7">
           <About />
-          <Brand />
+          {/* <Brand /> */}
           <Program />
         </div>
         <div className="col-span-1 order-1 rounded-lg bg-black p-5 lg:p-10 sm:col-span-6 lg:col-span-4  main_div_buy">

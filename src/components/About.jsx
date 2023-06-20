@@ -7,14 +7,13 @@ import linkedin from "../assets/linkedin.png";
 export default function About() {
   return (
     <div className="rounded-t-lg bg-black p-5 lg:pt-[34px] lg:pl-[46px] lg:pr-[98px]">
-      <h3 className="text-22 text-white">About Conglomerate </h3>
+      <h3 className="text-22 text-white">About CURE COIN </h3>
       <p className="pt-5 text-white pb-[9px] text-17">
-        The Conglomerate Capital is a web3, BEP20 blockchain-based investment
-        and funding platform, governed by a Decentralized Autonomous
-        Organization (DAO), from which disruptive startups as well as SME
-        businesses will raise capital, where investors will be able to access
-        Venture Capital and Private Equity outstanding opportunities through the
-        CONG token.
+      Cure Coin operates on the Binance Smart Chain (BSC), offering a
+          seamless and secure investment experience. Say hello to $CURE, the
+          symbol of both financial growth and a brighter future. With a starting
+          token supply of 10%, and an astonishing 90% held for future rewards,
+          your investment has the potential to soar to new heights.
       </p>
       {/* <a
         href="https://www.linkedin.com/company/the-conglomerate-capital/"
@@ -28,23 +27,23 @@ export default function About() {
           <span>Join Community</span> <AiOutlineArrowRight />{" "}
         </div>
         <a
-          href="https://t.me/congtoken"
-          target="_blank"
+          href="#"
+          // target="_blank"
           rel="noopener noreferrer"
         >
           <BsTelegram className="h-5 w-6 text-sky-600" />
         </a>
         <a
-          href="https://twitter.com/ConglomerateCap"
-          target="_blank"
+          href="#"
+          // target="_blank"
           rel="noopener noreferrer"
         >
           <img src={twitter} alt="" />
         </a>
 
         <a
-          href="https://www.linkedin.com/company/the-conglomerate-capital/"
-          target="_blank"
+          href="#"
+          // target="_blank"
           rel="noopener noreferrer"
         >
           <img src={linkedin} alt="" />
