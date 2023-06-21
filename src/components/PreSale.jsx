@@ -135,7 +135,7 @@ export default function PreSale(props) {
         June 20, 2023 To July 02, 2023
       </p>
       <p className="pb-[14px] text-white text-center text-17.5">
-        Sale Ending In:
+        {/* Sale Ending In: */}
         {/* {loading ? (
           <Countdown
             key={Math.floor(Math.random() * 10 + 1)}
@@ -151,11 +151,11 @@ export default function PreSale(props) {
 
 
         )} */}
-        <Countdown
+        {/* <Countdown
           key={Math.floor(Math.random() * 10 + 1)}
           date={ENDTIME}
           renderer={countdownrender}
-        />
+        /> */}
       </p>
 
       <div className="mb-[17px] h-4 w-full overflow-hidden rounded-full bg-[#000]">

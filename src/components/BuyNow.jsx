@@ -305,7 +305,7 @@ export default function BuyNow(props) {
 
   return (
     <div className="">
-      <div className="bg-black text-white">
+      <div className=" text-white">
         <h3 className="text-center text-19">Buy Now</h3>
         <p className="text-15 text-white text-center mt-2 mb-2">
           Your Balance : {balance ? formatPrice(balance) : 0}
@@ -313,12 +313,13 @@ export default function BuyNow(props) {
         </p>
         <RadioGroup value={plan} onChange={(value) => setPlan(value)}>
           <RadioGroup.Label className={"text-15"}>Choose Token</RadioGroup.Label>
-          <div className="flex justify-center gap-2 pt-4">
+          <div className="flex justify-center mdacont gap-2 pt-4">
+            <div className="article_resds">
             <RadioGroup.Option value={1}>
               {({ checked }) => (
                 <div
                   className={
-                    "flex h-6 w-[70px] cursor-pointer items-center justify-center gap-2 rounded-lg " +
+                    "flex h-6 w-[70px] wedt_resds cursor-pointer items-center justify-center gap-2 rounded-lg " +
                     (checked
                       ? "bg-white text-black"
                       : "bg-[#d9d9d9] text-black")
@@ -329,11 +330,13 @@ export default function BuyNow(props) {
                 </div>
               )}
             </RadioGroup.Option>
+            </div>
+            <div className="article_resds">
             <RadioGroup.Option value={2} onChange={(value) => setPlan(value)}>
               {({ checked }) => (
                 <div
                   className={
-                    "flex h-6 w-[70px] cursor-pointer items-center justify-center gap-2 rounded-lg " +
+                    "flex h-6 w-[70px] cursor-pointer wedt_resds items-center justify-center gap-2 rounded-lg " +
                     (checked
                       ? "bg-white text-black"
                       : "bg-[#d9d9d9] text-black")
@@ -344,11 +347,13 @@ export default function BuyNow(props) {
                 </div>
               )}
             </RadioGroup.Option>
+            </div>
+            <div className="article_resds">
             <RadioGroup.Option value={3} onChange={(value) => setPlan(value)}>
               {({ checked }) => (
                 <div
                   className={
-                    "flex h-6 w-[70px] cursor-pointer items-center justify-center gap-2 rounded-lg " +
+                    "flex h-6 w-[70px] wedt_resds cursor-pointer items-center justify-center gap-2 rounded-lg " +
                     (checked
                       ? "bg-white text-black"
                       : "bg-[#d9d9d9] text-black")
@@ -358,12 +363,13 @@ export default function BuyNow(props) {
                   <span className="text-12 font-semibold ">USDC</span>
                 </div>
               )}
-            </RadioGroup.Option>
+            </RadioGroup.Option></div>
+            <div className="article_resds">
             <RadioGroup.Option value={4} onChange={(value) => setPlan(value)}>
               {({ checked }) => (
                 <div
                   className={
-                    "flex h-6 w-[70px] cursor-pointer items-center justify-center gap-2 rounded-lg " +
+                    "flex h-6 w-[70px] wedt_resds cursor-pointer items-center justify-center gap-2 rounded-lg " +
                     (checked
                       ? "bg-white text-black"
                       : "bg-[#d9d9d9] text-black")
@@ -373,7 +379,7 @@ export default function BuyNow(props) {
                   <span className="text-12 font-semibold ">BNB</span>
                 </div>
               )}
-            </RadioGroup.Option>
+            </RadioGroup.Option></div>
           </div>
         </RadioGroup>
         <div className="flex w-full items-center justify-between pt-7">
@@ -384,7 +390,7 @@ export default function BuyNow(props) {
               type="text"
               value={amount}
               onChange={(e) => handleAmountChange(e)}
-              className="w-full border-b border-white bg-black py-1 outline-none ring-0 placeholder:text-10 placeholder:text-[#6c6c6c]"
+              className="w-full border-b border-white bg-transparent py-1 outline-none ring-0 placeholder:text-10 placeholder:text-[#6c6c6c]"
             />
             <span style={{ color: "red", fontSize: "0.7rem" }}>{error}</span>
           </div>
@@ -395,7 +401,7 @@ export default function BuyNow(props) {
               disabled={true}
               placeholder="0"
               type="text"
-              className="w-full border-b border-white bg-black py-1 outline-none ring-0"
+              className="w-full border-b border-white bg-transparent py-1 outline-none ring-0"
             />
           </div>
         </div>

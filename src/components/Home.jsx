@@ -29,12 +29,12 @@ export default function Home() {
   return (
     <>
       <main className="container grid grid-cols-1 sm:gap-4 lg:gap-20 pt-[97px] md:grid-cols-12  lg:grid-cols-11">
-        <div className="col-span-1 order-2 lg:order-1 sm:col-span-6 lg:col-span-7">
+        <div className="col-span-1 flex flex-col res_ordr justify-center order-1 sm:col-span-6 lg:col-span-7">
           <About />
           {/* <Brand /> */}
           <Program />
         </div>
-        <div className="col-span-1 order-1 rounded-lg bg-black p-5 lg:p-10 sm:col-span-6 lg:col-span-4  main_div_buy">
+        <div className="col-span-1 order-2 rounded-lg res_ordr_on  p-5 lg:p-10 sm:col-span-6 lg:col-span-4  main_div_buy">
           <div id="myModal" class={!acc && modal ? "modal" : "modal-hide"}>
             <div class="modal-content flex flex-col justify-center  md:block w-[90%] md:w-[40%] md:h-[40%]">
               <span class="close" onClick={hideModal}>
