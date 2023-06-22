@@ -168,12 +168,12 @@ export default function PreSale(props) {
       </div>
       <div className="flex items-center justify-between pb-6">
         <p className="text-13.5 text-white">
-          Raised: {totalUSDRaised} USD
+          Stage 1 : {totalUSDRaised} 
           {/* {commonStats.totalRaised ? formatPrice(commonStats.totalRaised) : 0}{" "} */}
         </p>
         <p className="text-13.5 text-white">
           {/* Goal: {data?.goal ? formatPrice(data?.goal) : "0"} USD */}
-          Goal: 20,000 USD
+          Stage 2 : 0
         </p>
       </div>
       <div id="myModal" class={!account && modal ? "modal" : "modal-hide"}>

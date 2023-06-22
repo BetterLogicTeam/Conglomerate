@@ -18,7 +18,7 @@ export const Connect = function ({ hideModal }) {
     <React.Fragment>
       <button
         type="button"
-        className="mx-auto mb-8 mr-2 md:mr-0 lg:mr-0 flex h-[44px] w-[174px] items-center justify-center gap-2 rounded-lg bg-black text-white"
+        className="mx-auto mb-8 mr-2 md:mr-0 modl_btn lg:mr-0 flex h-[44px] w-[174px] items-center justify-center gap-2 rounded-lg bg-black text-white"
         onClick={()=>(dispatch(connectWalletAction(2)),hideModal())}
      >
         <img
@@ -34,7 +34,7 @@ export const Connect = function ({ hideModal }) {
 
       <button
         type="button"
-        className="mx-auto mb-8 mr-2 md:mr-0 lg:mr-0 flex h-[44px] w-[174px] items-center justify-center gap-2 rounded-lg bg-black text-white"
+        className="mx-auto mb-8 mr-2 md:mr-0 modl_btn lg:mr-0 flex h-[44px] w-[174px] items-center justify-center gap-2 rounded-lg bg-black text-white"
         onClick={()=>(dispatch(connectWalletAction(1)),hideModal())}
      >
         <img

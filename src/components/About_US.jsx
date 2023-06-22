@@ -4,13 +4,7 @@ export default function About_US() {
   return (
     <div>
       <div className="rounded-t-lg bg-black p-5 lg:pt-[34px] lg:pl-[46px] lg:pr-[98px] ">
-        <h3 className="main_hsgsr text-white pt-28">$CURE Coin </h3>
-        <p className="pt-5 text-white pb-[9px] text-17">
-        Lets cure,
-          This should cover the about us too - aim of the project is to generate
-          funds for cancer research charities. Slogan is "Let's Cure Cancer with
-          Crypto!"
-        </p>
+        <h3 className="main_hsgsr2 text-[#FFFF00] pt-28">About Us </h3>
         <p className="pt-5 text-white pb-[9px] text-17">
           Here is a little bit of something to use a little or maybe just do a
           tokenomics graphic or something or a roadmap?

@@ -15,7 +15,7 @@ const data = [
   {
     id: 1,
     title: "Referral Program",
-    desc: "Share your referral link and get paid 5% instantly to your wallet for every referred token purchase. The referral cash back will be paid in USDT, USDC or BUSD, depending on which token was used to buy CURE COIN with the referral link.",
+    desc: "Share your referral link and get paid 10% instantly to your wallet for every referred token purchase. The referral cash back will be paid in USDT, USDC or BUSD, depending on which token was used to buy CURE COIN with the referral link.",
   },
   // {
   //   id: 2,
@@ -40,14 +40,14 @@ export default function Program() {
 
   return (
     <>
-      <div className="grid grid-cols-1 text-white gap-[29px] lg:grid-cols-1">
+      <div id="referral" className="grid grid-cols-1  text-white gap-[29px] lg:grid-cols-1">
         {data?.map(({ id, title, desc }) => (
           <>
             <div
               key={id}
-              className="rounded-lg sm:pb-7 sm:pr-9 sm:pl-[43px] sm:pt-8 px-5 "
+              className="rounded-lg sm:pb-7 sm:pr-9 paddng_res sm:pl-[43px] sm:pt-8 px-5 "
             >
-              <h3 className="pb-7 main_hsgsr">{title}</h3>
+              <h3 className="pb-7 main_hsgsr text-[#FFFF00]">{title}</h3>
               <p className="text-22">{desc}</p>
               {id === 1 && (
                 <div class="w-full items-center justify-between pt-7">
@@ -70,7 +70,7 @@ export default function Program() {
                     >
                       <button
                         type="button"
-                        class="h-[31px] w-[120px] rounded-lg mt-3 bg-white text-12.5 text-black"
+                        class="h-[35px] w-[160px] rounded-lg mt-3 bg-white text-12.5 text-black"
                       >
                         {copied ? "Copied!" : "Copy Referral"}
                       </button>
@@ -78,7 +78,7 @@ export default function Program() {
                   </div>
                 </div>
               )}
-              <div className="flex justify-center items-center gap-4 mt-[50px]">
+              <div className="flex justify-center items-center gap-4 mb-10 mt-[50px]">
                 <div className="flex  items-center gap-2  text-b_16 text-[#088AD3]">
                   {/* <span>Join Community</span> <AiOutlineArrowRight />{" "} */}
                 </div>

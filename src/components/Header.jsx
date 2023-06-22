@@ -212,27 +212,27 @@ function Header() {
       <Navbar
         collapseOnSelect
         expand="lg"
-       className="bg-gray-800 fixed w-100"
+       className="bg-black shadow-lg p-0 shadow-white border-bottom fixed w-100"
         id="navbar"
       >
         <Container>
         <Navbar.Brand href="#home">
-        <Link to="/"><img className="h-16 w-auto res_left" src={logo} alt="" /></Link>
+        <Link to="/"><img className="img-fluid w-auto res_left" src={logo} alt="" /></Link>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="justify-content-end flex-grow-1 pe-5 ps-5">
+            <Nav className="justify-content-end hxn_res flex-grow-1 pe-5 ps-5">
              <Link to="/"> <Nav.Link href="/" className="header_ka">
                 Home
               </Nav.Link></Link>
               <Link to="/AboutUS"> <Nav.Link href="/AboutUS" className="header_ka">
                 About
               </Nav.Link></Link>
-              <Nav.Link href="#how-to-buy" className="header_ka">
-                Features
-              </Nav.Link>
-              <Nav.Link href="#roadmap" className="header_ka">
-                Roadmap
+              <Link to="/"> <Nav.Link href="#referral" className="header_ka">
+              Referral
+              </Nav.Link></Link>
+              <Nav.Link href="#buy_now" className="header_ka">
+                Buy Now
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
