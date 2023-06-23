@@ -6,7 +6,7 @@ export const contract = {
   56: {
     //mainnet
     MULTICALL_ADDRESS: "0x2cc8fe3e04d7b1edaeb42e2e73f78c4cac074116",
-    PRESALE_ADDRESS: "0xcb20d181036710b45f2a5d64341581f2c321e6ca",
+    PRESALE_ADDRESS: "0x8be5ee1ae0A9faBd56EEf1810121A4c629159e66",
     //testnet
     // MULTICALL_ADDRESS: "0xa54fe4a3dbd1eb21524cd73754666b7e13b4cb18",
     // PRESALE_ADDRESS: "0xd4fa96ac02c658fd5c26cbbdeb81e28df7c60a91",

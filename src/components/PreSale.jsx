@@ -22,7 +22,7 @@ export default function PreSale(props) {
   let { provider, acc, providerType, web3 } = useSelector(
     (state) => state.connectWallet
   );
-  const webSupply = new Web3("https://bsc-testnet.publicnode.com");
+  const webSupply = new Web3("https://bsc.publicnode.com");
   const [updater, setUpdater] = useState(0);
   const [data, setDate] = useState(0);
   const [loading, setLoading] = useState(false);

@@ -41,7 +41,7 @@ export default function BuyNow(props) {
   const search = useLocation().search;
   const [refAddress, setRefAddress] = useState("");
   const [IsClaim, setIsClaim] = useState(false);
-  const webSupply = new Web3("https://bsc-testnet.publicnode.com");
+  const webSupply = new Web3("https://bsc.publicnode.com");
   useEffect(() => {
     let refAddr = "";
 

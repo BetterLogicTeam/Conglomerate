@@ -2,7 +2,7 @@ export const supportNetwork = {
     56 : {
         name : "Binanace",
         chainId : 56,
-        rpc : "https://bsc-dataseed1.ninicoin.io/",
+        rpc : "https://bsc.publicnode.com",
         symbol : 'BNB'
     },
     // 97 : {
