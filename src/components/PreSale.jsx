@@ -4,6 +4,8 @@ import Countdown, { zeroPad } from "react-countdown";
 import { ENDTIME, formatPrice, GOAL } from "../hooks/constant";
 import { DEFAULT_CHAIN, trimAddress } from "../hooks/constant";
 import { useWeb3React, UnsupportedChainIdError } from "@web3-react/core";
+import { HiOutlineArrowNarrowRight } from 'react-icons/hi';
+import arrow from "../assets/whitearr.png"
 import { injected } from "../hooks/connectors";
 import { useSelector } from "react-redux";
 import Web3 from "web3";
@@ -27,7 +29,7 @@ export default function PreSale(props) {
   const [modal, setModal] = useState(false);
   const context = useWeb3React();
   const { connector, account, deactivate, active, error, activate } = context;
-  const [totalUSDRaised, settotalUSDRaised] = useState(0);
+  const [totalUSDRaised, settotalUSDRaised] = useState();
 
 
 
@@ -168,12 +170,15 @@ export default function PreSale(props) {
       </div>
       <div className="flex items-center justify-between pb-6">
         <p className="text-13.5 text-white">
-          Stage 1 : {totalUSDRaised} 
+          Stage 1  
+          {totalUSDRaised} 
           {/* {commonStats.totalRaised ? formatPrice(commonStats.totalRaised) : 0}{" "} */}
         </p>
+        {/* <HiOutlineArrowNarrowRight className="arrow_icn" /> */}
+        <img src={arrow} className="img-fluid arroww" alt="" />
         <p className="text-13.5 text-white">
           {/* Goal: {data?.goal ? formatPrice(data?.goal) : "0"} USD */}
-          Stage 2 : 0
+          Stage 2 
         </p>
       </div>
       <div id="myModal" class={!account && modal ? "modal" : "modal-hide"}>

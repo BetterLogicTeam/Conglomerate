@@ -182,3 +182,19 @@ button,
     margin-top: -36rem;
   }
 }
+
+
+.arrow_icn{
+  font-size: 80px;
+  color: #FFFF;
+}
+
+.arroww{
+  width: 60%;
+}
+
+@media screen and (max-width: 360px) {
+  .arroww{
+    width: 40%;
+  }
+}
