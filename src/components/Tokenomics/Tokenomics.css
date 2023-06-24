@@ -1,0 +1,10 @@
+.Token_main{
+    z-index: 9999 !important;
+}
+
+.token_heading{
+    padding-top: 10rem !important;
+    display: flex;
+    justify-content: center;
+    color: white;
+}

@@ -9,6 +9,8 @@ import { Route, Routes } from "react-router-dom";
 import About_US from "./components/About_US";
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
+import Tokenomics from "./components/Tokenomics/Tokenomics";
+import Roadmap from "./components/Roadmap";
 
 function App() {
 
@@ -113,6 +115,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home/>} />
           <Route path="/AboutUS" element={<About_US/>} />
+          <Route path="/Tokenomics" element={<Tokenomics />} />
+          <Route path="/Roadmap" element={<Roadmap />} />
 
 
         </Routes>
