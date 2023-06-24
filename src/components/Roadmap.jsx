@@ -7,7 +7,7 @@ function Roadmap() {
   return (
     <div className="pb-16">
       <div className="token_heading d-flex flex-col items-center justify-center">
-        <h1 className="pt-36 md:pt-48 text-white text-24 md:text-[38px]">
+        <h1 className="pt-36 md:pt-48 text-[#FFFF00] text-24 md:text-[38px]">
           Presale Stage
         </h1>
       </div>
@@ -96,7 +96,7 @@ function Roadmap() {
       </div>
 
       <div className="token_heading d-flex flex-col items-center justify-center">
-        <h1 className="pt-36 md:pt-18 text-white text-24 md:text-[38px]">
+        <h1 className="pt-36 md:pt-18 text-[#FFFF00] text-24 md:text-[38px]">
           Roadmap
         </h1>
       </div>
@@ -105,9 +105,9 @@ function Roadmap() {
         <div className="row">
           <div className="col-lg-4">
             <div className="phase_box_main d-flex justify-center items-center">
-              <div className="phase_box mt-10 border w-80 h-60 p-10 text-white">
+              <div className="phase_box mt-10 border w-[22rem] md:h-60  p-10 text-white shadow-[5px_5px_0px_0px_#FFF]">
                 <h3 className="text-center pb-6 text-18">Phase 1</h3>
-                <u className="list-none text-decoration-none">
+                <u className=" text-decoration-none">
                   <li>New Website and Branding</li>
                   <li>Launch of our Official Whitepaper</li>
                   <li>Audit Applications and Reviews</li>
@@ -119,12 +119,15 @@ function Roadmap() {
 
           <div className="col-lg-4">
             <div className="phase_box_main d-flex justify-center items-center">
-              <div className="phase_box mt-10 border w-80 h-60 p-10 text-white">
+              <div className="phase_box mt-10 border w-[22rem] md:h-60  p-10 text-white shadow-[5px_5px_0px_0px_#FFF]">
                 <h3 className="text-center pb-6 text-18">Phase 2</h3>
-                <u className="list-none text-decoration-none">
+                <u className=" text-decoration-none">
                   <li>Token development</li>
                   <li>Community / Team Building</li>
-                  <li>Listing on CoinGecko and CoinMarketCap </li>
+                  <li>
+                    Listing on CoinGecko and{" "}
+                    <span className="pl-5">CoinMarketCap</span>{" "}
+                  </li>
                 </u>
               </div>
             </div>
@@ -132,9 +135,9 @@ function Roadmap() {
 
           <div className="col-lg-4">
             <div className="phase_box_main d-flex justify-center items-center">
-              <div className="phase_box mt-10 border w-80 h-60 p-10 text-white">
+              <div className="phase_box mt-10 border w-[22rem] md:h-60  p-10 text-white shadow-[5px_5px_0px_0px_#FFF]">
                 <h3 className="text-center pb-6 text-18">Phase 3</h3>
-                <u className="list-none text-decoration-none">
+                <u className=" text-decoration-none">
                   <li>Public Sale</li>
                   <li>Release of Token Claim</li>
                   <li>Staking Platform Launch</li>

@@ -167,6 +167,10 @@ button,
   .whitearr{
     width: 45% !important;
   }
+
+  .phase_box{
+    font-size: 13px !important;
+  }
 }
 
 @media (min-width: 1000px) and (max-width: 1100px) {

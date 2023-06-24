@@ -6,10 +6,6 @@ export default function About_US() {
       <div className="rounded-t-lg bg-black p-5 lg:pt-[34px] lg:pl-[46px] lg:pr-[98px] ">
         <h3 className="main_hsgsr2 text-[#FFFF00] pt-28">About Us </h3>
         <p className="pt-5 text-white pb-[9px] text-17">
-          Here is a little bit of something to use a little or maybe just do a
-          tokenomics graphic or something or a roadmap?
-        </p>
-        <p className="pt-5 text-white pb-[9px] text-17">
           Cure Coin operates on the Binance Smart Chain (BSC), offering a
           seamless and secure investment experience. Say hello to $CURE, the
           symbol of both financial growth and a brighter future. With a starting
