@@ -163,6 +163,10 @@ button,
   .language {
     padding: 2px 15px;
   }
+
+  .whitearr{
+    width: 45% !important;
+  }
 }
 
 @media (min-width: 1000px) and (max-width: 1100px) {

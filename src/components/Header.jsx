@@ -221,7 +221,7 @@ function Header() {
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="justify-content-end hxn_res flex-grow-1 pe-5 ps-5">
+            <Nav className="justify-content-end hxn_res flex-grow-1 pe-4 ps-4">
               <Link to="/">
                 {" "}
                 <Nav.Link href="/" className="header_ka">
