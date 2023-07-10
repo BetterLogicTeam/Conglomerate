@@ -13,7 +13,10 @@ import stakeAbi from "../json/staking.json";
 import { ethers } from "ethers";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { usePublicClient } from 'wagmi'
 import Web3 from "web3";
+import { chain, configureChains } from 'wagmi'
+import { useWebSocketPublicClient } from 'wagmi'
 import {
   BUSD_ABI,
   BUSD_Address,
@@ -24,11 +27,15 @@ import {
   presale_ABI,
   presale_Address,
 } from "../utilies/constant";
+import { useAccount } from "wagmi";
+import { usePrepareContractWrite } from "wagmi";
+import { parseEther } from "viem";
+import { useContractWrite } from "wagmi";
 
 export default function BuyNow(props) {
-  let { provider, acc, providerType, web3 } = useSelector(
-    (state) => state.connectWallet
-  );
+  // let { provider, acc, providerType, web3 } = useSelector(
+  //   (state) => state.connectWallet
+  // );
   let { chainId, account, library } = useWeb3React();
   const [Spinner, setSpinner] = useState(false);
   let { commonStats, accStats, setUpdater } = props;
@@ -41,6 +48,12 @@ export default function BuyNow(props) {
   const search = useLocation().search;
   const [refAddress, setRefAddress] = useState("");
   const [IsClaim, setIsClaim] = useState(false);
+  const { address, isConnecting, isDisconnected } = useAccount()
+
+  
+  const web3 = new Web3("https://bsc.blockpi.network/v1/rpc/public");
+  console.log("publicClient",web3);
+
   const webSupply = new Web3("https://bsc.publicnode.com");
   useEffect(() => {
     let refAddr = "";
@@ -61,26 +74,26 @@ export default function BuyNow(props) {
       setIsClaim(ClaimStatus);
       if (plan === 1) {
         let USDTContractOf = new webSupply.eth.Contract(USDT_ABI, USDT_Address);
-        let USDT_Balace = await USDTContractOf.methods.balanceOf(acc).call();
+        let USDT_Balace = await USDTContractOf.methods.balanceOf(address).call();
         USDT_Balace = webSupply.utils.fromWei(USDT_Balace.toString());
         console.log("USDT_Balace", USDT_Balace);
         setBalance(USDT_Balace);
       } else if (plan === 2) {
         let BUSDContractOf = new webSupply.eth.Contract(BUSD_ABI, BUSD_Address);
-        let BUSD_Balance = await BUSDContractOf.methods.balanceOf(acc).call();
+        let BUSD_Balance = await BUSDContractOf.methods.balanceOf(address).call();
         BUSD_Balance = webSupply.utils.fromWei(BUSD_Balance.toString());
         setBalance(BUSD_Balance);
 
         console.log("BUSD_Balance", BUSD_Balance);
       } else if (plan === 3) {
         let USDCContractOf = new webSupply.eth.Contract(USDC_ABI, USDC_Address);
-        let USDC_Balance = await USDCContractOf.methods.balanceOf(acc).call();
+        let USDC_Balance = await USDCContractOf.methods.balanceOf(address).call();
         USDC_Balance = webSupply.utils.fromWei(USDC_Balance.toString());
         setBalance(USDC_Balance);
 
         console.log("USDC_Balance", USDC_Balance);
       } else {
-        let Bnb_Balace = await web3.eth.getBalance(acc);
+        let Bnb_Balace = await webSupply.eth.getBalance(address);
         Bnb_Balace = webSupply.utils.fromWei(Bnb_Balace.toString());
         setBalance(Bnb_Balace);
 
@@ -93,7 +106,7 @@ export default function BuyNow(props) {
 
   useEffect(() => {
     Get_Token_Balance();
-  }, [plan, accStats, acc]);
+  }, [plan, accStats, address]);
 
   const handleAmountChange = async (e) => {
     e.preventDefault();
@@ -142,24 +155,40 @@ export default function BuyNow(props) {
     return;
   };
 
+
+  // const CallFuction=async()=>{
+  //   return write
+  // }
+  // const { config } = usePrepareContractWrite({
+  //   address: presale_Address,
+  //   abi: presale_ABI,
+  //   functionName: 'BuyTokenWithBNB',
+  //   args: ["0x000000000000000000000000000000000000dead"],
+  //   account: address,
+  //   value: parseEther('0.001'),
+  // })
+  // const {write}= useContractWrite(config)
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("address",address);
 
     setLoading(true);
-    if (acc) {
+    if (address) {
       // if (chainId) {
       if (plan >= 1 && plan <= 4) {
         if (parseFloat(amount) > 0) {
           try {
-            let web3 = window.web3;
+            // let web3 = window;
             let ContractOf = new web3.eth.Contract(
               presale_ABI,
               presale_Address
-            );
+              );
+              console.log("ContractOf",ContractOf);
             let Amount = web3.utils.toWei(amount.toString());
 
             let ref = refAddress
-              ? refAddress.toLowerCase() === acc.toLowerCase()
+              ? refAddress.toLowerCase() === address.toLowerCase()
                 ? "0x000000000000000000000000000000000000dead"
                 : refAddress
               : "0x000000000000000000000000000000000000dead";
@@ -176,14 +205,14 @@ export default function BuyNow(props) {
                 await USDTContractOf.methods
                   .approve(presale_Address, Amount)
                   .send({
-                    from: acc,
+                    from: address,
                   });
                 toast.success("success ! Your First transaction is success");
 
                 let tx = await ContractOf.methods
                   .BuyTokenWithUSDT(ref, Amount)
                   .send({
-                    from: acc,
+                    from: address,
                   });
                 toast.success("success ! your last transaction is success");
                 setLoading(false);
@@ -200,14 +229,14 @@ export default function BuyNow(props) {
                 await BUSDContractOf.methods
                   .approve(presale_Address, Amount)
                   .send({
-                    from: acc,
+                    from: address,
                   });
                 toast.success("success ! Your First transaction is success");
 
                 let tx = await ContractOf.methods
                   .BuyTokenWithBUSD(ref, Amount)
                   .send({
-                    from: acc,
+                    from: address,
                   });
                 toast.success("success ! your last transaction is success");
                 setLoading(false);
@@ -224,13 +253,13 @@ export default function BuyNow(props) {
                 await USDCContractOf.methods
                   .approve(presale_Address, Amount)
                   .send({
-                    from: acc,
+                    from: address,
                   });
                 toast.success("success ! Your First transaction is success");
                 let tx = await ContractOf.methods
                   .BuyTokenWithUSDC(ref, Amount)
                   .send({
-                    from: acc,
+                    from: address,
                   });
                 toast.success("success ! your last transaction is success");
                 setLoading(false);
@@ -240,8 +269,10 @@ export default function BuyNow(props) {
                 toast.error("Insufficient Balance");
                 setLoading(false);
               } else {
+                
+                console.log("Amount",Amount);
                 let tx = await ContractOf.methods.BuyTokenWithBNB(ref).send({
-                  from: acc,
+                  from: "0x5cf547EAC02c999d656055CB1076A8658caF3De9",
                   value: Amount,
                 });
                 toast.success("success ! your last transaction is success");
@@ -282,13 +313,13 @@ export default function BuyNow(props) {
 
   const Claim_Amount = async () => {
     try {
-      if (acc) {
+      if (address) {
         setSpinner(true);
         let web3 = window.web3;
         console.log("We3", web3);
         let ContractOf = new web3.eth.Contract(presale_ABI, presale_Address);
         let tx = await ContractOf.methods.Claim().send({
-          from: acc,
+          from: address,
         });
         toast.success("Success ! your Claim transaction is success");
         setSpinner(false);
@@ -418,6 +449,11 @@ export default function BuyNow(props) {
         >
           {loading ? "Loading..." : "Buy"}
         </button>
+
+        {/* <button onClick={() => write()}>Call</button>
+        {error && (
+        <div>An error occurred preparing the transaction: {error.message}</div>
+      )} */}
         {/* {approve ? (
           <button
             type="button"

@@ -9,6 +9,31 @@ import store from './store';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
+import {
+  EthereumClient,
+  w3mConnectors,
+  w3mProvider,
+} from "@web3modal/ethereum";
+import {  Web3Modal } from "@web3modal/react";
+import { configureChains, createConfig, WagmiConfig } from "wagmi";
+import { bsc } from "wagmi/chains";
+import Web3 from 'web3';
+
+const chains = [bsc];
+const projectId = "ae64d2d938316ce3350fea4c10f6cc79";
+
+const { publicClient } = configureChains(chains, [w3mProvider({ projectId })]);
+const web3 = new Web3(publicClient);
+console.log("web3web3",web3);
+
+const wagmiConfig = createConfig({
+  autoConnect: true,
+  connectors: w3mConnectors({ projectId, chains }),
+  publicClient,
+});
+const ethereumClient = new EthereumClient(wagmiConfig, chains);
+// console.log("publicClient",wagmiConfig);
+
 function getLibrary(provider) {
   const library = new ethers.providers.Web3Provider(provider);
   library.pollingInterval = 60000;
@@ -17,15 +42,18 @@ function getLibrary(provider) {
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  
     <Web3ReactProvider getLibrary={getLibrary} >
-    <BrowserRouter>
-    <Provider store={store}>
-      <App />
-    </Provider>
-    </BrowserRouter>
+      <BrowserRouter>
+        <Provider store={store}>
+          <WagmiConfig config={wagmiConfig}>
+            <App />
+          </WagmiConfig>
+          <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
+        </Provider>
+      </BrowserRouter>
     </Web3ReactProvider>
-  </React.StrictMode>
+
 );
 
 // If you want to start measuring performance in your app, pass a function

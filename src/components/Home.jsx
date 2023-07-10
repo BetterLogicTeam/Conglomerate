@@ -9,11 +9,15 @@ import { useAccountStats, useCommonStats } from "../stats/useStats";
 import Admin from "./Admin";
 import { DEFAULT_CHAIN, trimAddress } from "../hooks/constant";
 import { useSelector } from "react-redux";
+import { Web3Button } from "@web3modal/react";
+import { useAccount } from "wagmi";
+
 
 export default function Home() {
   const [updater, setUpdater] = useState(1);
   const accStats = useAccountStats(updater);
   const [modal, setModal] = useState(false);
+  const { address, isConnecting, isDisconnected } = useAccount()
 
   const commonStats = useCommonStats(updater);
   let { provider, acc, providerType, web3 } = useSelector(
@@ -26,6 +30,7 @@ export default function Home() {
   const hideModal = () => {
     setModal(false);
   };
+  console.log("address",address);
   return (
     <>
       <main className="container grid grid-cols-1 sm:gap-4 lg:gap-20 pt-[97px] md:grid-cols-12  lg:grid-cols-11">
@@ -49,7 +54,10 @@ export default function Home() {
               </div>
             </div>
           </div>
-          {acc != null ? (
+          <div className="mx-auto mt-12 mb-8 flex items-center justify-center gap-2">
+          <Web3Button />
+          </div>
+          {/* {acc != null ? (
             <button className="mx-auto mb-8 flex h-[44px] w-[174px] items-center justify-center gap-2 rounded-lg bg-white text-black">
               <span className="text-15">{acc && trimAddress(acc)}</span>
             </button>
@@ -59,7 +67,7 @@ export default function Home() {
                 Connect Wallet
               </span>
             </button>
-          )}
+          )} */}
           <div className="buy_Now py-8 px-8 border-2 lg:w-[400px] md:w-auto  border-white-600  ">
             <PreSale
               accStats={accStats}

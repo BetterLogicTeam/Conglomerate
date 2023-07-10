@@ -10,6 +10,7 @@ import { BsDiscord } from "react-icons/bs";
 import { BsInstagram } from "react-icons/bs";
 import twitter from "../assets/twitter.png";
 import linkedin from "../assets/linkedin.png";
+import { useAccount } from "wagmi";
 
 const data = [
   {
@@ -27,16 +28,18 @@ const data = [
 export default function Program() {
   const [refAddress, setRefAddress] = useState("");
   const [copied, setCopied] = useState(false);
-  let { provider, acc, providerType, web3 } = useSelector(
-    (state) => state.connectWallet
-  );
+  // let { provider, acc, providerType, web3 } = useSelector(
+  //   (state) => state.connectWallet
+  // );
+  const { address, isConnecting, isDisconnected } = useAccount()
+
   useEffect(() => {
-    if (acc) {
-      setRefAddress(`${window.location.origin}/?ref=${acc}`);
+    if (address) {
+      setRefAddress(`${window.location.origin}/?ref=${address}`);
     } else {
       setRefAddress("connect wallet");
     }
-  }, [acc]);
+  }, [address]);
 
   return (
     <>

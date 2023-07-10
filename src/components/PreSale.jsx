@@ -9,6 +9,7 @@ import arrow from "../assets/whitearr.png"
 import { injected } from "../hooks/connectors";
 import { useSelector } from "react-redux";
 import Web3 from "web3";
+import { useAccount } from "wagmi";
 import {
   BUSD_ABI,
   BUSD_Address,
@@ -18,10 +19,10 @@ import {
   USDT_Address,
   presale_Address,
 } from "../utilies/constant";
+import { usePublicClient } from "wagmi";
+
 export default function PreSale(props) {
-  let { provider, acc, providerType, web3 } = useSelector(
-    (state) => state.connectWallet
-  );
+ 
   const webSupply = new Web3("https://bsc.publicnode.com");
   const [updater, setUpdater] = useState(0);
   const [data, setDate] = useState(0);
@@ -30,6 +31,10 @@ export default function PreSale(props) {
   const context = useWeb3React();
   const { connector, account, deactivate, active, error, activate } = context;
   const [totalUSDRaised, settotalUSDRaised] = useState();
+  const { address, isConnecting, isDisconnected } = useAccount()
+  const publicClient = usePublicClient()
+  const web3 = new Web3(publicClient);
+
 
 
 
@@ -84,7 +89,7 @@ export default function PreSale(props) {
 
   const Get_Token_Balance = async () => {
     try {
-      if (acc) {
+      if (address) {
         let addBalance = 0;
         let USDTContractOf = new webSupply.eth.Contract(USDT_ABI, USDT_Address);
         let USDT_Balace = await USDTContractOf.methods.balanceOf(presale_Address).call();
@@ -128,7 +133,7 @@ export default function PreSale(props) {
   useEffect(() => {
     Get_Token_Balance();
   
-  }, [acc]);
+  }, [address]);
 
   return (
     <div>
